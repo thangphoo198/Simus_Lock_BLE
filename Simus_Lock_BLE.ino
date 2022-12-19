@@ -1,5 +1,7 @@
 
 #define NRF51822
+#include <ArduinoJson.h>
+DynamicJsonBuffer jsonBuffer;
 #include "lp_BLESerial.h"
 #include "lp_timer.h"
 int led = 2;
@@ -46,25 +48,31 @@ void loop() {
   // check for new BLE cmd  'a' starts blinking, 'b' stops blinking
   if(ble.available())
   {
-    String i="";
+  //String i="";
+  char buff[50]={0};
   while (ble.available() ) {
-  i = ble.readString(); 
+        for (unsigned int i = 0; i < 50; i++)
+    {
+        buff[i] =ble.read();
+    }
+ // i = ble.readString(); 
   }
-  Serial.println(i);
-     if (i.indexOf("on")!=-1) {
-      digitalWrite(led, LOW);
-      //ledTimer.startTimer(2000, stt); // start blinking
-    } else if(i.indexOf("off")!=-1) {
-      digitalWrite(led, HIGH);
-      //ledTimer.stop();    // stop blinking
-    }  
+      Serial.println(buff);
+ // Serial.println(i);
+//     if (i.indexOf("on")!=-1) {
+//      digitalWrite(led, LOW);
+//      //ledTimer.startTimer(2000, stt); // start blinking
+//    } else if(i.indexOf("off")!=-1) {
+//      digitalWrite(led, HIGH);
+//      //ledTimer.stop();    // stop blinking
+//    }  
   }
 
  
 // ble.poll();
 }
 void stt() {
-    char *input =
+    char input[100] =
       "goc: hello world toi la thang pro 2022 axzcvbnm1973"; //chuoi nay cho do dai la 46 => ghep 3 mang,, 
       int len = strlen(input); // do dai chuoi
       int msg_len = 20;
@@ -129,10 +137,12 @@ void stt() {
 void Connect(BLECentral& central)
 {
   Serial.println("da ket noi");
+   ble.print("123456");
+  //ble.clearTxBuffer();
+   ble.flush();  
   //xu ly khi ket noi
   nhay_led1();
-  
-  ledTimer.startTimer(2000, stt); // start blinking
+  //ledTimer.startTimer(2000, stt); // start blinking
 }
 void Disconnect(BLECentral& central)
 {
