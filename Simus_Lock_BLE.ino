@@ -4,6 +4,7 @@
 DynamicJsonBuffer jsonBuffer;
 #include "lp_BLESerial.h"
 #include "lp_timer.h"
+#include "command.h"
 int led = 2;
 bool ledOn = false;
 lp_timer ledTimer;
